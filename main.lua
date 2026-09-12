@@ -248,7 +248,7 @@ function FilebrowserPlus:showQRCode(touchmenu_instance)
     }
 
     local instructions_widget = TextBoxWidget:new{
-        text = _("Quét mã QR hoặc truy cập URL bằng trình duyệt\n\nHai thiết bị cần kết nối cùng một mạng Wi-Fi\n\nTài khoản mặc định: admin\nMật khẩu mặc định: admin12345678\n\nDownload: toolbykien/filebrowserplus.koplugin"),
+        text = _("Quét mã QR hoặc truy cập URL bằng trình duyệt\n\nHai thiết bị cần kết nối cùng một mạng Wi-Fi\n\nTài khoản mặc định: admin\nMật khẩu mặc định: admin12345678"),
         face = Font:getFace("smallinfofont", 20),
         width = screen_width * 0.65,
         alignment = "center",
