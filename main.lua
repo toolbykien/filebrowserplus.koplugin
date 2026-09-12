@@ -256,7 +256,7 @@ function FilebrowserPlus:showQRCode(touchmenu_instance)
     }
 
     local button_text = TextWidget:new{
-        text = _("Dừng máy chủ"),
+        text = _("Ngắt kết nối"),
         face = Font:getFace("infofont", 20),
         fgcolor = Blitbuffer.COLOR_BLACK,
     }
@@ -379,7 +379,7 @@ function FilebrowserPlus:showQRCode(touchmenu_instance)
                 UIManager:show(ConfirmBox:new{
                     title = _("FilebrowserPlus đang hoạt động"),
                     text = _("Bạn có muốn FilebrowserPlus hoạt động dưới nền?"),
-                    ok_text = _("Dừng máy chủ"),
+                    ok_text = _("Ngắt kết nối"),
                     cancel_text = _("Chạy dưới nền"),
                     ok_callback = function()
                         manager:closeQRScreen()
