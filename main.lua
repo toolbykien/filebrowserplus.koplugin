@@ -112,7 +112,7 @@ function FilebrowserPlus:config()
     logger.dbg("status:", status)
 
     if status == 0 then
-        logger.info("[FilebrowserPlus] User 'admin' has been created.")
+        logger.info("[FilebrowserPlus] Đã tạo người dùng 'admin'.")
     else
         logger.info("[FilebrowserPlus] Failed to reset admin password and auth, status Filebrowser, status:", status)
         local info = InfoMessage:new{
@@ -136,14 +136,14 @@ function FilebrowserPlus:resetPassword()
         local info = InfoMessage:new{
             timeout = 15,
             text = string.format(
-                "Password for user %s is now set to %s\nYou can change it via the filbrowser web portal!", username,
+                "Mật khẩu cho %s đã được đặt thành %s\nCó thể đổi lại trên giao diện web Filebrowser!", username,
                 newPass)
         }
         UIManager:show(info)
     else
         local info = InfoMessage:new{
             icon = "notice-warning",
-            text = _("Failed to reset default password.")
+            text = _("Khôi phục mật khẩu mặc định không thành công.")
         }
         UIManager:show(info)
     end
@@ -174,7 +174,7 @@ end
 function FilebrowserPlus:showQRCode(touchmenu_instance)
     if not self:isRunning() then
         UIManager:show(InfoMessage:new{
-            text = _("FilebrowserPlus server is not running."),
+            text = _("Máy chủ chưa được khởi động."),
             timeout = 2,
         })
         return
@@ -184,9 +184,9 @@ function FilebrowserPlus:showQRCode(touchmenu_instance)
     local ip = self:getIPAddress()
 
     if not ip then
-        logger.warn("[FilebrowserPlus] showQRCode: failed to get IP, showing manual input hint")
+        logger.warn("[FilebrowserPlus] showQRCode: Không thể lấy IP tự động. Vui lòng nhập địa chỉ thủ công")
         UIManager:show(InfoMessage:new{
-            text = _("Server started, but could not automatically get the IP address.\nPlease manually enter the device IP and port in your browser.\n\nHint: port is ") .. tostring(self.filebrowserplus_port),
+            text = _("Máy chủ đã khởi động, nhưng không lấy được địa chỉ IP.\nVui lòng nhập thủ công địa chỉ IP thiết bị và cổng vào trình duyệt của bạn.\n\nGợi ý: Cổng kết nối là ") .. tostring(self.filebrowserplus_port),
             timeout = 5,
         })
         return
@@ -248,7 +248,7 @@ function FilebrowserPlus:showQRCode(touchmenu_instance)
     }
 
     local instructions_widget = TextBoxWidget:new{
-        text = _("Scan the QR code or enter the URL in your browser\n\nBoth devices must be on the same Wi-Fi network\n\nDefault username: admin\nDefault password: admin12345678"),
+        text = _("Quét mã QR hoặc truy cập URL bằng trình duyệt\n\nHai thiết bị cần kết nối cùng một mạng Wi-Fi\n\nTài khoản mặc định: admin\nMật khẩu mặc định: admin12345678\n\nDownload: toolbykien/filebrowserplus.koplugin"),
         face = Font:getFace("smallinfofont", 20),
         width = screen_width * 0.65,
         alignment = "center",
@@ -256,7 +256,7 @@ function FilebrowserPlus:showQRCode(touchmenu_instance)
     }
 
     local button_text = TextWidget:new{
-        text = _("Stop server"),
+        text = _("Dừng máy chủ"),
         face = Font:getFace("infofont", 20),
         fgcolor = Blitbuffer.COLOR_BLACK,
     }
@@ -360,7 +360,7 @@ function FilebrowserPlus:showQRCode(touchmenu_instance)
                and y >= btn.dimen.y and y <= btn.dimen.y + btn.dimen.h then
                 self._manager:closeQRScreen()
                 UIManager:show(InfoMessage:new{
-                    text = _("Stopping server..."),
+                    text = _("Đang tắt server..."),
                     timeout = 2,
                 })
                 UIManager:scheduleIn(0.5, function()
@@ -377,14 +377,14 @@ function FilebrowserPlus:showQRCode(touchmenu_instance)
                and y >= close_btn.dimen.y and y <= close_btn.dimen.y + close_btn.dimen.h then
                 local manager = self._manager
                 UIManager:show(ConfirmBox:new{
-                    title = _("File server is running"),
-                    text = _("The server will keep running in the background. What do you want to do?"),
-                    ok_text = _("Stop server"),
-                    cancel_text = _("Keep running"),
+                    title = _("FilebrowserPlus đang hoạt động"),
+                    text = _("Bạn có muốn FilebrowserPlus hoạt động dưới nền?"),
+                    ok_text = _("Dừng máy chủ"),
+                    cancel_text = _("Chạy dưới nền"),
                     ok_callback = function()
                         manager:closeQRScreen()
                         UIManager:show(InfoMessage:new{
-                            text = _("Stopping server..."),
+                            text = _("Đang tắt server..."),
                             timeout = 2,
                         })
                         UIManager:scheduleIn(0.5, function()
@@ -421,7 +421,7 @@ function FilebrowserPlus:start(touchmenu_instance)
     end
 
     if self:isRunning() then
-        logger.dbg("[FilebrowserPlus] Not starting FilebrowserPlus, already running.")
+        logger.dbg("[FilebrowserPlus] FilebrowserPlus đã đang chạy, không khởi động lại.")
         return
     end
 
@@ -472,13 +472,13 @@ function FilebrowserPlus:start(touchmenu_instance)
         local extra_info = ""
         local timeout_duration = 3
         if self.filebrowserplus_first_setup then
-            extra_info = _("\n\nDefault username: admin\nDefault password: admin12345678")
+            extra_info = _("\n\nTài khoản mặc định: admin\nMật khẩu mặc định: admin12345678")
             timeout_duration = 15
         end
 
         local auto_stop_msg = ""
         if self.auto_stop_minutes and self.auto_stop_minutes > 0 then
-            auto_stop_msg = "\n" .. T(_("Auto-stop in %1 min"), self.auto_stop_minutes)
+            auto_stop_msg = "\n" .. T(_("Tự động dừng sau %1 phút"), self.auto_stop_minutes)
         end
 
         if self.auto_show_qr then
@@ -487,7 +487,7 @@ function FilebrowserPlus:start(touchmenu_instance)
         else
             local info = InfoMessage:new{
                 timeout = timeout_duration,
-                text = _("FilebrowserPlus server started.") .. auto_stop_msg .. extra_info
+                text = _("FilebrowserPlus đã bắt đầu chạy.") .. auto_stop_msg .. extra_info
             }
             UIManager:show(info)
         end
@@ -521,11 +521,11 @@ function FilebrowserPlus:checkAutoStop()
     end
 
     if os.time() >= self.stop_deadline then
-        logger.info("[FilebrowserPlus] Auto-stop timer expired, stopping server.")
+        logger.info("[FilebrowserPlus] Hết thời gian chờ, đang tắt máy chủ...")
         self.auto_stop_scheduled = false
         self:stop(true)
         UIManager:show(InfoMessage:new{
-            text = _("FilebrowserPlus server auto-stopped after timeout"),
+            text = _("Máy chủ tự động ngắt do hết thời gian chờ (timeout)"),
             timeout = 3
         })
     else
@@ -582,7 +582,7 @@ function FilebrowserPlus:stop(is_auto)
         logger.info("[FilebrowserPlus] Filebrowser stopped.")
         if not is_auto then
             UIManager:show(InfoMessage:new{
-                text = _("FilebrowserPlus server stopped."),
+                text = _("Máy chủ FilebrowserPlus đã dừng."),
                 timeout = 3
             })
         end
@@ -686,8 +686,8 @@ end
 
 function FilebrowserPlus:show_autostop_dialog(touchmenu_instance)
     self.autostop_dialog = InputDialog:new{
-        title = _("Auto-stop timeout (min)"),
-        description = _("Set to 0 to disable"),
+        title = _("Tự động dừng sau (phút)"),
+        description = _("Đặt về 0 để vô hiệu hóa"),
         input = tostring(self.auto_stop_minutes),
         input_type = "number",
         buttons = {{{
@@ -716,7 +716,7 @@ end
 
 function FilebrowserPlus:addToMainMenu(menu_items)
     local sub_item_table = {{
-        text = _("Show QR code"),
+        text = _("Hiện mã QR"),
         enabled_func = function()
             return self:isRunning()
         end,
@@ -747,7 +747,7 @@ function FilebrowserPlus:addToMainMenu(menu_items)
             self:show_dataPath_dialog(touchmenu_instance)
         end
     }, {
-        text = _("Reset Admin User Password"),
+        text = _("Đặt lại Mật Khẩu Admin"),
         keep_menu_open = true,
         enabled_func = function()
             return not self:isRunning()
@@ -756,7 +756,7 @@ function FilebrowserPlus:addToMainMenu(menu_items)
             self:resetPassword()
         end
     }, {
-        text = _("Login without password (DANGEROUS)"),
+        text = _("Đăng nhập không cần mật khẩu (NGUY HIỂM)"),
         checked_func = function()
             return self.allow_no_password
         end,
@@ -768,7 +768,7 @@ function FilebrowserPlus:addToMainMenu(menu_items)
             G_reader_settings:flipNilOrFalse("FilebrowserPlus_allow_no_password")
         end
     }, {
-        text = _("Start FilebrowserPlus server with KOReader"),
+        text = _("Khởi động máy chủ FilebrowserPlus cùng với KOReader"),
         checked_func = function()
             return self.autostart
         end,
@@ -780,7 +780,7 @@ function FilebrowserPlus:addToMainMenu(menu_items)
             G_reader_settings:flipNilOrFalse("FilebrowserPlus_autostart")
         end
     }, {
-        text = _("Show QR code on start"),
+        text = _("Hiện mã QR khi khởi động"),
         checked_func = function()
             return self.auto_show_qr
         end,
@@ -791,9 +791,9 @@ function FilebrowserPlus:addToMainMenu(menu_items)
     }, {
         text_func = function()
             if self.auto_stop_minutes and self.auto_stop_minutes > 0 then
-                return T(_("Auto-stop timeout (%1 min)"), self.auto_stop_minutes)
+                return T(_("Tự động dừng sau (%1 min)"), self.auto_stop_minutes)
             else
-                return _("Auto-stop timeout (disabled)")
+                return _("Tự động dừng (Vô hiệu hóa)")
             end
         end,
         keep_menu_open = true,
@@ -816,7 +816,7 @@ function FilebrowserPlus:addToMainMenu(menu_items)
                 end
 
             else
-                return _("FilebrowserPlus (Long press for settings)")
+                return _("FilebrowserPlus (Giữ để vào Cài Đặt)")
             end
         end,
         sorting_hint = "network",
